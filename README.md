@@ -1,2 +1,2 @@
-# simple-pinterest-clone
-Simple Pinterest clone using Node/Express.
+# Simple Pinterest clone
+Simple Pinterest clone using Node/Express and Bootstrap.
