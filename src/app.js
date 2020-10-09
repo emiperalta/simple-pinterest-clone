@@ -8,6 +8,7 @@ const path = require('path');
 const timeago = require('timeago.js');
 
 const indexRouter = require('./routes/index');
+const userRouter = require('./routes/user');
 
 const app = express();
 const port = process.env.PORT;
@@ -38,5 +39,7 @@ const storage = multer.diskStorage({
 
 app.use(multer({ storage: storage }).single('image'));
 app.use('/', indexRouter);
+app.use('/user', userRouter);
+app.get('/user', (req, res) => res.redirect('/'));
 
 app.listen(port);
