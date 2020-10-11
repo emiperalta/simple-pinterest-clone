@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { loginValidation, registerValidation } = require('../../validation');
+const registerValidation = require('../../validation');
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const passport = require('passport');
@@ -49,5 +49,10 @@ router.post('/login', checkNotAuth, passport.authenticate('local', {
   failureRedirect: '/user/login',
   failureFlash: true  
 }));
+
+router.delete('/logout', (req, res) => {
+    req.logOut();
+    res.redirect('/');
+});
 
 module.exports = router;

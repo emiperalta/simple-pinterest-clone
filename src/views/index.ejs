@@ -10,7 +10,12 @@
     <%- include('partials/navigation') -%>
     <div class="container p-3">
         <div class="row">
-            <div class="card-columns">
+            <% if(images.length == 0) {%>
+                <div class="container p-5">
+                    <h1 class="text-center">There is no images.</h1>
+                </div>
+            <% } %>
+            <div class="card-columns">                
                 <% images.forEach(function(image) { %>
                     <div class="card animate__animated animate__fadeIn">
                         <img src="<%= image.path %>" class="card-img-top">
@@ -24,9 +29,6 @@
                             <p class="card-text text-center">
                                 <%= format(image.createdAt) %>
                             </p>
-                            <p class="card-text text-center">
-                                Uploaded by <%= user %>
-                            </p>
                             <hr>
                             <div class="container text-center">
                                 <a href="/image/<%= image._id %>" class="btn btn-primary btn-block">
@@ -39,6 +41,5 @@
             </div>
         </div>
     </div>
-
 </body>
 </html>

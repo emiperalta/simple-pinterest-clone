@@ -1,21 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const Image = require('../models/Image');
+const User = require('../models/User');
 const path = require('path');
 const fs_extra = require('fs-extra');
-const { checkAuth } = require('./auth');
+const { checkAuth, checkNotAuth } = require('./auth');
 
 router.get('/', checkAuth, async (req, res) => {
     try {
         const images = await Image.find();
-        res.render('index', { images: images, user: req.user.name });
+        res.render('index', { images: images, user: req.user });
     } catch (err) {
         res.status(400).send(`Error: ${err.message}`);
     }
 });
 
 router.get('/upload', checkAuth, async (req, res) => {
-    res.render('upload');
+    res.render('upload', { user: req.user.name });
 });
 
 router.post('/upload', checkAuth, async (req, res) => {
@@ -40,7 +41,7 @@ router.post('/upload', checkAuth, async (req, res) => {
 router.get('/image/:id', async (req, res) => {
     try {
         const image = await Image.findById(req.params.id);
-        res.render('image', { image });
+        res.render('image', { image, user: req.user });
     } catch (err) {
         res.status(400).send(`Error ${err.message}`);
     }
