@@ -24,6 +24,9 @@
                             <p class="card-text text-center">
                                 <%= format(image.createdAt) %>
                             </p>
+                            <p class="card-text text-center">
+                                Uploaded by <%= user %>
+                            </p>
                             <hr>
                             <div class="container text-center">
                                 <a href="/image/<%= image._id %>" class="btn btn-primary btn-block">

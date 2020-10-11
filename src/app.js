@@ -1,11 +1,16 @@
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
 const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const multer = require('multer');
-require('dotenv').config();
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 const timeago = require('timeago.js');
+const flash = require('express-flash');
+const passport = require('passport');
+const session = require('express-session');
 
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
@@ -38,6 +43,11 @@ const storage = multer.diskStorage({
 });
 
 app.use(multer({ storage: storage }).single('image'));
+app.use(flash());
+app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false }));
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.get('/user', (req, res) => res.redirect('/'));

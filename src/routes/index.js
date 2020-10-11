@@ -3,21 +3,22 @@ const router = express.Router();
 const Image = require('../models/Image');
 const path = require('path');
 const fs_extra = require('fs-extra');
+const { checkAuth } = require('./auth');
 
-router.get('/', async (req, res) => {
+router.get('/', checkAuth, async (req, res) => {
     try {
         const images = await Image.find();
-        res.render('index', { images: images });
+        res.render('index', { images: images, user: req.user.name });
     } catch (err) {
         res.status(400).send(`Error: ${err.message}`);
     }
 });
 
-router.get('/upload', async (req, res) => {
+router.get('/upload', checkAuth, async (req, res) => {
     res.render('upload');
 });
 
-router.post('/upload', async (req, res) => {
+router.post('/upload', checkAuth, async (req, res) => {
     try {
         let newImage = new Image({
             title: req.body.title,
@@ -45,7 +46,7 @@ router.get('/image/:id', async (req, res) => {
     }
 });
 
-router.get('/image/:id/delete', async (req, res) => {
+router.get('/image/:id/delete', checkAuth, async (req, res) => {
     try {
         const image = await Image.findByIdAndDelete(req.params.id);
         fs_extra.unlink(path.resolve('./src/public' + image.path));
