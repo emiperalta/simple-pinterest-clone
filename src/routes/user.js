@@ -14,7 +14,7 @@ initializePassport(
 )
 
 router.get('/register', checkNotAuth, (req, res) => {    
-    res.render('register');
+    res.render('register', { error: '' });
 });
 
 router.post('/register', checkNotAuth, async (req, res) => {
