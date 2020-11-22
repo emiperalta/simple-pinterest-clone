@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <%- include('partials/head'); -%>
-    <title>Pinterest-clone</title>
-</head>
-<body>
-    <%- include('partials/navigation') -%>
-    <div class="container p-3">
-        <div class="row">
-            <% if(images.length == 0) {%>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <%- include('partials/head'); -%>
+        <title>Pinterest-clone</title>
+    </head>
+    <body>
+        <%- include('partials/navigation') -%>
+        <div class="container p-3">
+            <div class="row">
+                <% if(images.length == 0) {%>
                 <div class="container p-5">
                     <h1 class="text-center">There is no images.</h1>
                 </div>
-            <% } %>
-            <div class="card-columns">                
-                <% images.forEach(function(image) { %>
+                <% } %>
+                <div class="card-columns">
+                    <% images.forEach(function(image) { %>
                     <div class="card animate__animated animate__fadeIn">
-                        <img src="<%= image.path %>" class="card-img-top">
+                        <img src="<%= image.path %>" class="card-img-top" />
                         <div class="card-body">
                             <h5 class="card-title text-center">
                                 <%= image.title %>
@@ -29,17 +29,20 @@
                             <p class="card-text text-center">
                                 <%= format(image.createdAt) %>
                             </p>
-                            <hr>
+                            <hr />
                             <div class="container text-center">
-                                <a href="/image/<%= image._id %>" class="btn btn-primary btn-block">
+                                <a
+                                    href="/image/<%= image._id %>"
+                                    class="btn btn-primary btn-block"
+                                >
                                     View image
                                 </a>
                             </div>
                         </div>
                     </div>
-                <% }); %>
+                    <% }); %>
+                </div>
             </div>
         </div>
-    </div>
-</body>
+    </body>
 </html>
