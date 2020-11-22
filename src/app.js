@@ -2,7 +2,6 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 const express = require('express');
-const mongoose = require('mongoose');
 const morgan = require('morgan');
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
@@ -17,13 +16,6 @@ const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
 
 const app = express();
-const port = process.env.PORT;
-
-mongoose.connect(process.env.DB_CONNECTION, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
-mongoose.connection.once('open', () => console.log('DB is connected'));
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -63,4 +55,4 @@ app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.get('/user', (req, res) => res.redirect('/'));
 
-app.listen(port);
+module.exports = app;
