@@ -5,14 +5,29 @@ const fs_extra = require('fs-extra');
 exports.index = async (req, res) => {
     try {
         const images = await Image.find();
-        res.render('index', { images: images, user: req.user });
+        return res.render('index', {
+            images: images,
+            user: req.user,
+            error: '',
+        });
     } catch (err) {
-        res.status(400).send(`Error: ${err.message}`);
+        return res.status(400).render('index', {
+            images: [],
+            user: req.user,
+            error: err.message,
+        });
     }
 };
 
 exports.getImage = async (req, res) => {
-    res.render('upload', { user: req.user.name });
+    try {
+        return res.render('upload', { user: req.user.name, error: '' });
+    } catch (err) {
+        return res.status(400).render('upload', {
+            user: req.user.name,
+            error: err.message,
+        });
+    }
 };
 
 exports.postImage = async (req, res) => {
@@ -28,18 +43,22 @@ exports.postImage = async (req, res) => {
         });
 
         await newImage.save();
-        res.redirect('/');
+        return res.redirect('/');
     } catch (err) {
-        res.status(400).send(`Error: ${err.message}`);
+        return res.status(400).send(`Error: ${err.message}`);
     }
 };
 
 exports.getImageById = async (req, res) => {
     try {
         const image = await Image.findById(req.params.id);
-        res.render('image', { image, user: req.user });
+        return res.render('image', { image: image, user: req.user, error: '' });
     } catch (err) {
-        res.status(400).send(`Error ${err.message}`);
+        return res.status(400).render('image', {
+            image: '',
+            user: req.user,
+            rror: err.message,
+        });
     }
 };
 
@@ -47,8 +66,8 @@ exports.deleteImage = async (req, res) => {
     try {
         const image = await Image.findByIdAndDelete(req.params.id);
         fs_extra.unlink(path.resolve('./src/public' + image.path));
-        res.redirect('/');
+        return res.redirect('/');
     } catch (err) {
-        res.status(400).send(`Error: ${err.message}`);
+        return res.status(400).send(`Error: ${err.message}`);
     }
 };

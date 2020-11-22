@@ -67,6 +67,9 @@
                             </form>
                         </div>
                     </div>
+                    <% if(error) { %>
+                    <p class="text-center text-danger"><%= error %></p>
+                    <% } %>
                 </div>
                 <div class="col-md-3"></div>
             </div>

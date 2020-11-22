@@ -12,8 +12,8 @@ const session = require('express-session');
 const flash = require('express-flash');
 const methodOverride = require('method-override');
 
-const indexRouter = require('./routes/index');
-const userRouter = require('./routes/user');
+const indexRouter = require('./routes/index.routes');
+const userRouter = require('./routes/user.routes');
 
 const app = express();
 
